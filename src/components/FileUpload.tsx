@@ -63,14 +63,13 @@ export function FileUpload({ files, onFilesChange, onProcess, processing }: Prop
         onDragLeave={handleDrag}
         onDrop={handleDrop}
         onClick={() => inputRef.current?.click()}
-        style={dragActive ? { boxShadow: '0 0 20px rgba(110,231,183,0.08)' } : undefined}
         className={`
           relative border-2 border-dashed rounded-2xl p-12 cursor-pointer
           transition-all duration-200 ease-out
           ${
             dragActive
-              ? 'border-[#6EE7B7] bg-[rgba(110,231,183,0.04)] scale-[1.01]'
-              : 'border-[#2A2A3A] bg-[#111118] hover:border-[#3D3D55]'
+              ? 'border-slate-900 bg-slate-50 scale-[1.01]'
+              : 'border-slate-300 bg-white hover:border-slate-400 hover:bg-slate-50/50'
           }
         `}
       >
@@ -89,17 +88,17 @@ export function FileUpload({ files, onFilesChange, onProcess, processing }: Prop
           <div
             className={`
               w-14 h-14 rounded-full flex items-center justify-center mb-4
-              transition-colors duration-200 text-[#6EE7B7]
-              ${dragActive ? '' : 'mint-pulse'}
+              transition-colors duration-200
+              ${dragActive ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'}
             `}
           >
             <Upload className="w-6 h-6" strokeWidth={2} />
           </div>
-          <h3 className="font-['Syne'] text-lg font-semibold text-[#F0F0F5] mb-1">
+          <h3 className="text-lg font-semibold text-slate-900 mb-1">
             {dragActive ? 'Drop your CSVs here' : 'Drag and drop CSV files'}
           </h3>
-          <p className="text-sm text-[#8B8BA8]">
-            or <span className="text-[#6EE7B7] font-medium underline underline-offset-2 decoration-[#6EE7B7]/50">browse</span> to upload. Multiple files supported.
+          <p className="text-sm text-slate-500">
+            or <span className="text-slate-900 font-medium underline underline-offset-2">browse</span> to upload. Multiple files supported.
           </p>
         </div>
       </div>
@@ -107,12 +106,12 @@ export function FileUpload({ files, onFilesChange, onProcess, processing }: Prop
       {files.length > 0 && (
         <div className="mt-6 space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#8B8BA8] uppercase tracking-[0.08em]">
+            <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">
               {files.length} file{files.length > 1 ? 's' : ''} selected
             </span>
             <button
               onClick={() => onFilesChange([])}
-              className="text-xs text-[#8B8BA8] hover:text-[#F0F0F5] transition-colors duration-150"
+              className="text-xs text-slate-500 hover:text-slate-900 transition-colors"
             >
               Clear all
             </button>
@@ -121,21 +120,21 @@ export function FileUpload({ files, onFilesChange, onProcess, processing }: Prop
             {files.map((file, i) => (
               <li
                 key={`${file.name}-${i}`}
-                className="flex items-center gap-3 px-4 py-3 bg-[#111118] border border-[#2A2A3A] rounded-lg group hover:border-[#3D3D55] transition-colors duration-150"
+                className="flex items-center gap-3 px-4 py-3 bg-white border border-slate-200 rounded-lg group hover:border-slate-300 transition-colors"
               >
-                <FileSpreadsheet className="w-5 h-5 text-[#6EE7B7] flex-shrink-0" strokeWidth={1.75} />
+                <FileSpreadsheet className="w-5 h-5 text-emerald-600 flex-shrink-0" strokeWidth={1.75} />
                 <div className="flex-1 min-w-0">
-                  <div className="font-['JetBrains_Mono'] text-xs text-[#8B8BA8] truncate">
+                  <div className="text-sm font-medium text-slate-900 truncate">
                     {file.name}
                   </div>
-                  <div className="font-['JetBrains_Mono'] text-[11px] text-[#4A4A60] mt-0.5">{formatSize(file.size)}</div>
+                  <div className="text-xs text-slate-500">{formatSize(file.size)}</div>
                 </div>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     removeFile(i);
                   }}
-                  className="p-1.5 rounded-md text-[#4A4A60] hover:text-[#F87171] hover:bg-[rgba(248,113,113,0.1)] transition-colors duration-150"
+                  className="p-1.5 rounded-md text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-colors"
                   aria-label={`Remove ${file.name}`}
                 >
                   <X className="w-4 h-4" />
@@ -151,18 +150,18 @@ export function FileUpload({ files, onFilesChange, onProcess, processing }: Prop
           onClick={onProcess}
           disabled={files.length === 0 || processing}
           className={`
-            inline-flex items-center gap-2 px-6 py-3 rounded-lg font-['Syne'] font-bold text-sm tracking-[0.04em]
+            inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm
             transition-all duration-150
             ${
               files.length === 0 || processing
-                ? 'bg-[#1A1A24] text-[#4A4A60] cursor-not-allowed'
-                : 'bg-[#6EE7B7] text-[#0A0A0F] hover:brightness-110 hover:scale-[1.02] active:scale-[0.98]'
+                ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                : 'bg-slate-900 text-white hover:bg-slate-800 active:scale-[0.98] shadow-sm'
             }
           `}
         >
           {processing ? (
             <>
-              <span className="w-4 h-4 border-2 border-[#0A0A0F]/30 border-t-[#0A0A0F] rounded-full animate-spin" />
+              <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               Processing...
             </>
           ) : (
